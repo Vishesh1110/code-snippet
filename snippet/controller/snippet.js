@@ -14,8 +14,8 @@ export const createSnippet = (req, res) => {
     
     return res.status(201).json({
         success: true,
-        message: 'Snippet created successfully',
-        snippet: snippets[id]
+        snippet: snippets[id],
+        message: 'Snippet created successfully'
     });
 }
 
