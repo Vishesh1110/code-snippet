@@ -24,7 +24,8 @@ export const createComment = (req, res) => {
 export const getCommentsBySnippetId = (req, res) => {
   const snippetId = req.params.id;
 
-  const comments = commentsDB[snippetId] || [];
+  // const comments = commentsDB[snippetId] || [];
+  console.log(commentsDB[snippetId]);
 
-  return res.status(200).json(comments[snippetId] || []);
+  return res.status(200).json(commentsDB[snippetId]);
 }
