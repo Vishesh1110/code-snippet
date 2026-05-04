@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { createComment } from '../../../comments/controller/comment';
 
 const CreateComment = ({ snippetId }) => {
 
@@ -11,8 +10,8 @@ const CreateComment = ({ snippetId }) => {
         e.preventDefault();
         try {
             const response = await axios.post(`http://localhost:8001/api/v1/snippet/${snippetId}/comments`, { text });
-            console.log(response.data);
-            // setComments([...comments, response.data.comment])
+            setComments(prev =>[...prev, response.data.comment]);
+            setText("");
         } catch (error) {
             console.log(error);
         }
@@ -22,17 +21,19 @@ const CreateComment = ({ snippetId }) => {
         const fetchComments = async () => {
             try {
                 const response = await axios.get(`http://localhost:8001/api/v1/snippet/${snippetId}/comments`);
-                setComments(response.data.comment)
+                console.log(response.data);
+                setComments(Array.isArray(response.data) ? response.data : response.data.comments ?? []);
             } catch (error) {
                 console.log("Error at fetching comment", error);
             }
         }
+        fetchComments()
     }, [])
 
     return (
         <div>
-            {comments.map((comment, index) => (
-                <li key={index}>{comment}</li>
+            {(comments ?? []).map((comment, index) => (
+                <li key={index} className='ml-4 text-sm'>{comment?.text ?? comment}</li>
             ))}
             <form onSubmit={addComment} className='mt-4 flex flex-col gap-2 '>
                 <input
