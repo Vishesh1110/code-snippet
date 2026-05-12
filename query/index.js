@@ -7,6 +7,6 @@ dotenv.config();
 const app = express();
 app.use(cors());
 
-app.listen(process.env.PORT, () => {
-  console.log(`Query service is running on port ${process.env.PORT}`);
+app.listen(process.env.QUERY_SERVICE_PORT, () => {
+  console.log(`Query service is running on port ${process.env.QUERY_SERVICE_PORT}`);
 });
