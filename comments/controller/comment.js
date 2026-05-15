@@ -14,6 +14,18 @@ export const createComment = (req, res) => {
 
   commentsDB[snippetId] = comments;
 
+
+  axios.post(`http://localhost:${process.env.MESSAGE_BROKER_PORT}/events`, {
+      type: 'CommentCreated',
+      data: {
+          id: id,
+          content: text,
+          snippetId
+      }
+  }).catch(err => {
+      console.error('Error sending snippet to event bus:', err);
+  });
+
   return res.status(201).json({
     success: true, 
     message: "Comment added successfully", 
